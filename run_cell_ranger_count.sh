@@ -16,8 +16,8 @@ fastqfolder=../fastq/
 
 ##transcriptome=/nfs/rprdata/refGenome10x/refdata-cellranger-hg19-1.2.0/
 ##transcriptome=/nfs/rprdata/refGenome10x/refdata-cellranger-GRCh38-3.0.0/
-##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-GRCh38-3.0.0/
-transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg19-3.0.0/
+transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-GRCh38-3.0.0/
+##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg19-3.0.0/
 ##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-gex-mm10-2020-A/
 
 
