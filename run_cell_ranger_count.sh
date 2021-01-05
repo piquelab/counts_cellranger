@@ -21,7 +21,7 @@ transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg1
 ##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-gex-mm10-2020-A/
 
 
-find ${fastqfolder} -name 'Labor-Myo*fastq.gz' | sed 's/.*\///;s/_S.*//' | grep -v Undeter | sort | uniq > libList.txt
+find ${fastqfolder} -name '*.fastq.gz' | sed 's/.*\///;s/_S.*//' | grep -v Undeter | sort | uniq > libList.txt
 
 
 ##cat $samplefile | cut -d, -f2 | grep -v Sample | sort | uniq |\
