@@ -1,7 +1,19 @@
 #!/bin/bash
 
+##-q express -t 10000 -N 1-1 -n 28 --mem=110G
+
+#SBATCH --job-name 3_filter_vcf
+#SBATCH -q express
+#SBATCH -N 1-1
+#SBATCH -n 28
+#SBATCH --mem=110G
+#SBATCH -o slurm_3_filter_vcf_%j.out
+#SBATCH -t 10000
+
 set -v
 set -e
+
+module load samtools
 
 ncpus=$SLURM_CPUS_ON_NODE
 
@@ -39,7 +51,7 @@ bcftools index ${prefix}.posG9.reordered.vcf.gz --threads ${ncpus}
 bcftools view -h ${prefix}.posG9.reordered.vcf.gz | grep -v contig > my1.vcf.header
 bcftools reheader -h my1.vcf.header ${prefix}.posG9.reordered.vcf.gz --threads ${ncpus} -o ${prefix}.posG9.reheader.vcf.gz 
 
-
+bcftools index ${prefix}.posG9.reheader.vcf.gz 
 
 
 
