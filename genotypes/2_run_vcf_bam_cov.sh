@@ -3,9 +3,6 @@
 set -v
 set -e
 
-
-## 39 bam file seprately call SNPs
-
 ## Reference genome fasta. It should match the one used for alignment. 
 refGenome="/nfs/rprscratch/1Kgenomes/phase2_reference_assembly_sequence/hs37d5.fa.bgz"
 ## Initial genotype file vcf, Prefilter: MAF>0 to remove monomorphic SNPs. and to keep only snp and -m2 -M2
@@ -15,10 +12,11 @@ gencoveVCF="./ref.vcf.gz"
 bamcovFolder="./bamcov/"
 
 mkdir -p ${bamcovFolder}
-### (1). Find SNPs coverage depth for all Bam files seprately
+### Find SNPs coverage depth for all Bam files seprately
 cat ../libList.txt | \
 while read sample; do
-    sbatch -q highmem --mem=110G -N 1-1 -n 3 -t 1000 -J ${sample} -o slurm.${sample}.out <<EOF
+    if [ ! -f "slurm.${sample}.out" ]; then  ## prevents job resubmission
+	sbatch -q highmem --mem=110G -N 1-1 -n 3 -t 1000 -J ${sample} -o slurm.${sample}.out <<EOF
 #!/bin/bash
 module load samtools;
 echo $sample;
@@ -27,11 +25,6 @@ bcftools index $bamcovFolder/$sample.merge.pileup.bcf;
 bcftools query $bamcovFolder/$sample.merge.pileup.bcf -i 'INFO/DP>0' -f '%CHROM\t%POS\t%DP\n' | bgzip > $bamcovFolder/$sample.posG0.txt.gz
 bcftools query $bamcovFolder/$sample.merge.pileup.bcf -i 'INFO/DP>9' -f '%CHROM\t%POS\n' | bgzip > $bamcovFolder/$sample.posG9.txt.gz
 EOF
- 
+    fi 
 done 
 ###########################
-
-##| qsub -l mem=110gb -l ncpus=3 -N ${sample}
-##    sleep 2
-## bcftools query bamcov/C19C-CAM-09.merge.pileup.bcf -i 'INFO/DP>0' -f '%CHROM\t%POS\t%DP\n'
-

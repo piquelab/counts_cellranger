@@ -11,8 +11,10 @@ mkdir -p ${demuxFolder}
 cat ../libList.txt | \
 while read sample;
 do
-     echo ${sample}
-     sbatch -q highmem --mem=250G -N 1-1 -n 2 -t 1000 -J ${sample} -o slurm.${sample}.out <<EOF
+    if [ ! -f "slurm.${sample}.out" ]; then 
+	echo "#################"
+	echo ${sample}
+	sbatch -q highmem --mem=250G -N 1-1 -n 2 -t 5000 -J ${sample} -o slurm.${sample}.out <<EOF
 #!/bin/bash
 set -v 
 set -e
@@ -25,6 +27,7 @@ popscle.2021-01-18  demuxlet --plp ${demuxFolder}/${sample}.d \
          --vcf ${vcfFile} \
          --out ${demuxFolder}/${sample}.out --field GT --alpha 0.0 --alpha 0.5 --doublet-prior 0.1
 EOF
+    fi
 done
 
 
