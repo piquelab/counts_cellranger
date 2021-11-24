@@ -17,8 +17,9 @@ fastqfolder=../fastqs/NYGC2/
 ##transcriptome=/nfs/rprdata/refGenome10x/refdata-cellranger-hg19-1.2.0/
 ##transcriptome=/nfs/rprdata/refGenome10x/refdata-cellranger-GRCh38-3.0.0/
 ##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-GRCh38-3.0.0/
-transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg19-3.0.0/
-##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-gex-mm10-2020-A/
+##wsu`transcriptome=/wsu/home/groups/piquelab/data/refGenome11x/refdata-cellranger-hg19-3.0.0/
+##transcriptome=/wsu/home/groups/piquelab/data/refGenome11x/refdata-gex-mm10-2020-A/
+transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-gex-GRCh38-2020-A/
 
 
 if [ ! -f "libList.txt" ]; then
@@ -45,6 +46,7 @@ time cellranger count \
       --fastqs=$fastqlist \
       --sample=$sample \
       --chemistry=SC3Pv3 \
+	--include-introns \
       --transcriptome=$transcriptome \
       --localcores=15 --localmem=80 --localvmem=105
 "  
