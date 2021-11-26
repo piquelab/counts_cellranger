@@ -3,6 +3,10 @@ set -v
 set -e
 
 
+## NOT USED FOR THE BRAIN PROJECT,  JUST creat a link with the right vcf file wiht a name ref.vcf.gz 
+exit
+
+
 ##ln -s /nfs/rprdata/scilab/labor2/PRB_Geno_UofM/RP/outvcf/split/imputed/trimerge.vcf.gz
 ##ln -s /wsu/home/groups/prbgenomics/genotyping-data/PRB_Geno_UofM/Prjt_359_Pique-Regi_20201217_2535-RP/imputed.UM/2021-01-12_merge.vcf.gz
 

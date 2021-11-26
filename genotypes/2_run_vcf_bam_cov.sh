@@ -16,7 +16,7 @@ mkdir -p ${bamcovFolder}
 cat ../libList.txt | \
 while read sample; do
     if [ ! -f "slurm.${sample}.out" ]; then  ## prevents job resubmission
-	sbatch -q highmem --mem=110G -N 1-1 -n 3 -t 1000 -J ${sample} -o slurm.${sample}.out <<EOF
+	sbatch -q primary --mem=110G -N 1-1 -n 3 -t 1000 -J ${sample} -o slurm.${sample}.out <<EOF
 #!/bin/bash
 module load samtools;
 echo $sample;
