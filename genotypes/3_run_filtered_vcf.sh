@@ -32,27 +32,36 @@ bamcovFolder="./bamcov/"
 
 prefix="combined"
 
-zcat bamcov/*.posG9.txt.gz | cut -f1,2 | sort -k1,1 -k2,2 -n | uniq | bgzip > ${prefix}.posG9.txt.gz 
+if [ ! -f ${prefix}.posG9.txt.gz ]; then
+    zcat bamcov/*.posG9.txt.gz | cut -f1,2 | sort -k1,1 -k2,2 -n | uniq | bgzip > ${prefix}.posG9.txt.gz 
+fi
 
 
-## subset Original vcf file at well covered positions. 
-bcftools view -T <(zcat ${prefix}.posG9.txt.gz) ${gencoveVCF} --threads ${ncpus} -Oz -o ${prefix}.posG9.AL.vcf.gz
+## subset Original vcf file at well covered positions.
+if [ ! -f ${prefix}.posG9.AL.vcf.gz ]; then 
+    bcftools view -T <(zcat ${prefix}.posG9.txt.gz) ${gencoveVCF} --threads ${ncpus} -Oz -o ${prefix}.posG9.AL.vcf.gz
+fi
 
 ## MAF Calculator. (RPR I need AF and MAF, this can be comented if in orginal REF file..???)
-bcftools plugin fill-tags ${prefix}.posG9.AL.vcf.gz -- -t 'AN,AC,AF,MAF' \
-  | bcftools view --threads $ncpus -Oz -o ${prefix}.posG9.AF.vcf.gz
+if [ ! -f ${prefix}.posG9.AF.vcf.gz ]; then
+    bcftools plugin fill-tags ${prefix}.posG9.AL.vcf.gz -- -t 'AN,AC,AF,MAF' \
+	| bcftools view --threads $ncpus -Oz -o ${prefix}.posG9.AF.vcf.gz
+    bcftools index ${prefix}.posG9.AF.vcf.gz --threads $ncpus
+fi
 
 ### (3). transfer the format required by demuxlet
 # reorder VCF lexicographically by chromosome number
-bcftools index ${prefix}.posG9.AF.vcf.gz --threads $ncpus
-bcftools view -r 1,10,11,12,13,14,15,16,17,18,19,2,20,21,22,3,4,5,6,7,8,9 ${prefix}.posG9.AF.vcf.gz --threads ${ncpus} -Oz -o ${prefix}.posG9.reordered.vcf.gz 
-bcftools index ${prefix}.posG9.reordered.vcf.gz --threads ${ncpus}
 
-bcftools view -h ${prefix}.posG9.reordered.vcf.gz | grep -v contig > my1.vcf.header
-bcftools reheader -h my1.vcf.header ${prefix}.posG9.reordered.vcf.gz --threads ${ncpus} -o ${prefix}.posG9.reheader.vcf.gz 
+if [ ! -f ${prefix}.posG9.reordered.vcf.gz ]; then
+    bcftools view -r `echo "chr"{1,10,11,12,13,14,15,16,17,18,19,2,20,21,22,3,4,5,6,7,8,9} | tr ' ' ,` ${prefix}.posG9.AF.vcf.gz --threads ${ncpus} -Oz -o ${prefix}.posG9.reordered.vcf.gz 
+    bcftools index ${prefix}.posG9.reordered.vcf.gz --threads ${ncpus}
+fi
 
-bcftools index ${prefix}.posG9.reheader.vcf.gz 
-
+if [ ! -f ${prefix}.posG9.reheader.vcf.gz ]; then
+    bcftools view -h ${prefix}.posG9.reordered.vcf.gz | grep -v contig > my1.vcf.header
+    bcftools reheader -h my1.vcf.header ${prefix}.posG9.reordered.vcf.gz --threads ${ncpus} -o ${prefix}.posG9.reheader.vcf.gz 
+    bcftools index ${prefix}.posG9.reheader.vcf.gz 
+fi
 
 
 
