@@ -37,7 +37,9 @@ zcat ../${sample}/outs/filtered_feature_bc_matrix/barcodes.tsv.gz > ${sample}/ba
 
 ##K=4
 
-socFolder=/nfs/rprdata/scilab/novogene/counts.hg19/souporcell/
+##socFolder=/nfs/rprdata/scilab/novogene/counts.hg19/souporcell/
+socFolder=/wsu/home/groups/piquelab/data/souporcell/
+
 
 singularity exec -B /nfs,/wsu ${socFolder}/souporcell.sif souporcell_pipeline.py \
     -i ../${sample}/outs/possorted_genome_bam.bam -b ${sample}/barcodes.tsv \
