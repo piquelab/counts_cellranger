@@ -11,7 +11,7 @@ echo $PWD
 ## Can use this one as an argument. 
 ##fastqfolder=../fastq/HV2LVBGXG/
 ##fastqfolder=../fastq/0H2JCYBGXG/
-fastqfolder=../fastqs/NYGC2/
+fastqfolder=../fastq_merge/
 
 
 ##transcriptome=/nfs/rprdata/refGenome10x/refdata-cellranger-hg19-1.2.0/
