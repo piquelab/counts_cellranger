@@ -31,3 +31,6 @@ bcftools index ref.vcf.gz
 ##  | bcftools plugin fill-tags ${prefix}.posG9.AL.vcf.gz -- -t 'AN,AC,AF,MAF' \
 plink2 --make-king-table --vcf ref.vcf.gz 
 less plink2.kin0 | awk '$6>0.1'
+
+ln -s ../../genotype_merge/ref.vcf.gz
+ln -s ../../genotype_merge/ref.vcf.gz.csi 
