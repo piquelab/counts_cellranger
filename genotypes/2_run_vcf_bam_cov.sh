@@ -4,7 +4,9 @@ set -v
 set -e
 
 ## Reference genome fasta. It should match the one used for alignment. 
-refGenome="/nfs/rprscratch/1Kgenomes/phase2_reference_assembly_sequence/hs37d5.fa.bgz"
+##refGenome="/nfs/rprscratch/1Kgenomes/phase2_reference_assembly_sequence/hs37d5.fa.bgz"
+refGenome="/wsu/el7/groups/piquelab/refData/refGenome10x/refdata-cellranger-arc-GRCh38-2020-A-2.0.0/fasta/genome.fa"
+
 ## Initial genotype file vcf, Prefilter: MAF>0 to remove monomorphic SNPs. and to keep only snp and -m2 -M2
 
 ##gencoveVCF="/nfs/rprdata/scilab/endometrium/genotypes/HPL20289.vcf.gz"
