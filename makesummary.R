@@ -2,8 +2,8 @@
 library(tidyverse)
 
 system("
-grep 'Est' ./*/outs/metrics_summary.csv | head -1 | sed 's/.*csv:/Library ID,/' > all_summary.csv;
-grep -v 'Est' ./*/outs/metrics_summary.csv | sed 's/\\/outs.*csv:/,/;s/\\.\\///' >> all_summary.csv
+grep 'Est' ./*/metrics_summary.csv | head -1 | sed 's/.*csv:/Library ID,/' > all_summary.csv;
+grep -v 'Est' ./*/metrics_summary.csv | sed 's/\\/metrics_summary.*csv:/,/;s/\\.\\///' >> all_summary.csv
 ")
 
 
