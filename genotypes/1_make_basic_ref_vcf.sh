@@ -3,14 +3,9 @@ set -v
 set -e
 
 
-## NOT USED FOR THE BRAIN PROJECT,  JUST creat a link with the right vcf file wiht a name ref.vcf.gz 
-exit
+##ln -s /wsu/home/groups/prbgenomics/genotyping-data/PRB_Geno_UofM/mergeAll.2022-11-16/merge.vcf.gz
 
-
-##ln -s /nfs/rprdata/scilab/labor2/PRB_Geno_UofM/RP/outvcf/split/imputed/trimerge.vcf.gz
-##ln -s /wsu/home/groups/prbgenomics/genotyping-data/PRB_Geno_UofM/Prjt_359_Pique-Regi_20201217_2535-RP/imputed.UM/2021-01-12_merge.vcf.gz
-
-#ln -s /wsu/home/groups/prbgenomics/genotyping-data/PRB_Geno_UofM/mergeAll.2021-07-29/2021-07-29_merge.vcf.gz 
+##ln -s /wsu/home/groups/prbgenomics/genotyping-data/PRB_Geno_UofM/mergeAll.2021-07-29/2021-07-29_merge.vcf.gz 
 #ln -s /wsu/home/groups/prbgenomics/genotyping-data/PRB_Geno_UofM/mergeAll.2021-07-29/2021-07-29_merge.vcf.gz.csi
 
 
@@ -22,8 +17,8 @@ module load samtools misc
 
 ## Selects bi-allelic SNPs with MAF>0 and from the samples that are present, and renames to HPL-F/M 
 ## This creates the master reference genotype file. 
-bcftools view -S <(tail -n +2 Covid19GenotypeTable.txt | cut -f2) -v snps -m2 -M2 -i 'INFO/MAF>0' 2021-07-29_merge.vcf.gz --threads 4 \
-  | bcftools reheader -s <(tail -n +2 Covid19GenotypeTable.txt | cut -f5) --threads 4 \
+bcftools view -S <(cat selectedSamples4.txt | cut -f1) -v snps -m2 -M2 -i 'INFO/MAF>0' merge.vcf.gz --threads 4 \
+  | bcftools reheader -s <(cat selectedSamples4.txt | cut -f2) --threads 4 \
   | bcftools view -Oz -o ref.vcf.gz --threads 4
 
 bcftools index ref.vcf.gz
@@ -32,5 +27,5 @@ bcftools index ref.vcf.gz
 plink2 --make-king-table --vcf ref.vcf.gz 
 less plink2.kin0 | awk '$6>0.1'
 
-ln -s ../../genotype_merge/ref.vcf.gz
-ln -s ../../genotype_merge/ref.vcf.gz.csi 
+## ln -s ../../genotype_merge/ref.vcf.gz
+## ln -s ../../genotype_merge/ref.vcf.gz.csi 

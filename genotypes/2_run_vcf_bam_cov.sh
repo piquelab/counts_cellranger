@@ -22,7 +22,7 @@ while read sample; do
 #!/bin/bash
 module load samtools;
 echo $sample;
-samtools mpileup -f $refGenome -l <(bcftools query $gencoveVCF -f '%CHROM\t%POS\n') ../$sample/outs/possorted_genome_bam.bam -d 1000000 -g -t DP,AD,ADF,ADR > $bamcovFolder/$sample.merge.pileup.bcf; 
+samtools mpileup -f $refGenome -l <(bcftools query $gencoveVCF -f '%CHROM\t%POS\n') ../$sample/possorted_genome_bam.bam -d 1000000 -g -t DP,AD,ADF,ADR > $bamcovFolder/$sample.merge.pileup.bcf; 
 bcftools index $bamcovFolder/$sample.merge.pileup.bcf; 
 bcftools query $bamcovFolder/$sample.merge.pileup.bcf -i 'INFO/DP>0' -f '%CHROM\t%POS\t%DP\n' | bgzip > $bamcovFolder/$sample.posG0.txt.gz
 bcftools query $bamcovFolder/$sample.merge.pileup.bcf -i 'INFO/DP>9' -f '%CHROM\t%POS\n' | bgzip > $bamcovFolder/$sample.posG9.txt.gz

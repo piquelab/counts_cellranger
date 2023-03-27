@@ -1,6 +1,6 @@
 #!/bin/bash
 
-destfolder=/nfs/rprscratch/wwwShare/genome.grid.wayne.edu/sc-brain/${PWD##*/}
+destfolder=/nfs/rprscratch/wwwShare/genome.grid.wayne.edu/preeclampsia/${PWD##*/}
 
 mkdir -p $destfolder
 
@@ -8,7 +8,7 @@ mkdir -p $destfolder
 cat libList.txt | while read f; 
 do 
     echo $f 
-    cp $f/outs/web_summary.html $destfolder/$f.html 
+    cp $f/web_summary.html $destfolder/$f.html 
 done
 
 

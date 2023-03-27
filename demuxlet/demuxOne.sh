@@ -14,13 +14,13 @@ do
     if [ ! -f "slurm.${sample}.out" ]; then 
 	echo "#################"
 	echo ${sample}
-	sbatch -q primary --mem=250G -N 1-1 -n 2 -t 5000 -J ${sample} -o slurm.${sample}.out <<EOF
+	sbatch -q primary --mem=250G -N 1-1 -n 2 -t 20000 -J ${sample} -o slurm.${sample}.out <<EOF
 #!/bin/bash
 set -v 
 set -e
 module load demuxlet; 
 popscle.2021-01-18  dsc-pileup \
-         --sam ../${sample}/outs/possorted_genome_bam.bam \
+         --sam ../${sample}/possorted_genome_bam.bam \
          --vcf ${vcfFile} \
          --out ${demuxFolder}/${sample}.d > ${demuxFolder}/${sample}.errout.txt;
 popscle.2021-01-18  demuxlet --plp ${demuxFolder}/${sample}.d \
