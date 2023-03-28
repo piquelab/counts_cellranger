@@ -50,7 +50,7 @@ time cellranger count \
       --chemistry=SC3Pv3 \
       --transcriptome=$transcriptome \
       --localcores=15 --localmem=80 --localvmem=105;
-mv $TMPDIR/$sample/outs /nfs/prb/fe0105/preeclampsia/demux_cellranger_preeclampsia/$sample
+mv $TMPDIR/$sample/outs ./$sample
 "  
     fi
 done
