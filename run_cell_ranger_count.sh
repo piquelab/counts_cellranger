@@ -42,6 +42,7 @@ do
 	echo $fastqlist
 	sbatch -q primary -n 16 -N 1-1 --mem=110G -t 20000 -J $sample -o slurm.$sample.out  --wrap "
 module load cellranger; 
+WF=`pwd -P`;
 cd $TMPDIR; \ 
 time cellranger count \
       --id=$sample \
@@ -50,7 +51,7 @@ time cellranger count \
       --chemistry=SC3Pv3 \
       --transcriptome=$transcriptome \
       --localcores=15 --localmem=80 --localvmem=105;
-mv $TMPDIR/$sample/outs ./$sample
+mv $TMPDIR/$sample/outs $WF/$sample
 "  
     fi
 done
