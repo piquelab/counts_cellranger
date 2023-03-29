@@ -41,8 +41,7 @@ do
 	fastqlist=`echo ${fastqs} | tr ' ' ,`
 	echo $fastqlist
 	sbatch -q primary -n 16 -N 1-1 --mem=110G -t 20000 -J $sample -o slurm.$sample.out  --wrap "
-module load cellranger; 
-WF=`pwd -P`;
+module load cellranger;
 cd $TMPDIR; \ 
 time cellranger count \
       --id=$sample \
@@ -51,7 +50,7 @@ time cellranger count \
       --chemistry=SC3Pv3 \
       --transcriptome=$transcriptome \
       --localcores=15 --localmem=80 --localvmem=105;
-mv $TMPDIR/$sample/outs $WF/$sample
+mv $TMPDIR/$sample/outs /wsu/tmp/roger/demux_cellranger_preeclampsia/$sample
 "  
     fi
 done
