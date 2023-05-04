@@ -12,7 +12,7 @@ set -e
 
 module load samtools misc
 
-
+## 
 ## Keeping only Covid-19 samples from the vcf file. 
 
 

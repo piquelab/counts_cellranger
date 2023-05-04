@@ -20,7 +20,7 @@ fastqfolder=../fastq/
 transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg19-3.0.0/
 ##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-gex-mm10-2020-A/
 
-
+##
 if [ ! -f "libList.txt" ]; then
     find -L ${fastqfolder} -name '*fastq.gz' | sed 's/.*\///;s/_S[0-9].*//' | grep -v Undeter | sort | uniq > libList.txt
 fi
