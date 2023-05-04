@@ -22,7 +22,7 @@ transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg1
 
 
 if [ ! -f "libList.txt" ]; then
-    find ${fastqfolder} -name '*fastq.gz' | sed 's/.*\///;s/_S.*//' | grep -v Undeter | sort | uniq > libList.txt
+    find -L ${fastqfolder} -name '*fastq.gz' | sed 's/.*\///;s/_S[0-9].*//' | grep -v Undeter | sort | uniq > libList.txt
 fi
 
 ##cat $samplefile | cut -d, -f2 | grep -v Sample | sort | uniq |\
@@ -35,19 +35,19 @@ do
     if [ ! -f "slurm.${sample}.out" ]; then 
 	echo "#################"
 	echo $sample 
-	fastqs=`find ${fastqfolder} -name "${sample}_*fastq.gz" | sed "s/\/${sample}_S.*//" | sort | uniq`
+	fastqs=`find -L ${fastqfolder} -name "${sample}_*fastq.gz" | sed "s/\/${sample}_S[0-9].*//" | sort | uniq`
 	fastqlist=`echo ${fastqs} | tr ' ' ,`
 	echo $fastqlist
-	sbatch -q express -n 16 -N 1-1 --mem=110G -t 2000 -J $sample -o slurm.$sample.out  --wrap "
+	sbatch -q primary -n 16 -N 1-1 --mem=110G -t 4000 -J $sample -o slurm.$sample.out  --wrap "
 module load bcl2fastq cellranger; 
 time cellranger count \
       --id=$sample \
       --fastqs=$fastqlist \
       --sample=$sample \
-      --chemistry=SC3Pv3 \
       --transcriptome=$transcriptome \
       --localcores=15 --localmem=80 --localvmem=105
 "  
     fi
 done
 
+##      --chemistry=SC3Pv3 \
