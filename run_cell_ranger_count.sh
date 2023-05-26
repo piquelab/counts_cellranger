@@ -14,6 +14,9 @@ echo $PWD
 ##fastqfolder=/nfs/prb/fe0105/preeclampsia/fastqs/
 fastqfolder=`cd ../fastq/; pwd -P`
 
+WF=`pwd -P`;
+
+
 ##transcriptome=/nfs/rprdata/refGenome10x/refdata-cellranger-hg19-1.2.0/
 ##transcriptome=/nfs/rprdata/refGenome10x/refdata-cellranger-GRCh38-3.0.0/
 ##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-GRCh38-3.0.0/
@@ -51,7 +54,7 @@ time cellranger count \
       --chemistry=SC3Pv3 \
       --transcriptome=$transcriptome \
       --localcores=15 --localmem=80 --localvmem=105;
-mv $TMPDIR/$sample/outs /wsu/tmp/roger/demux_cellranger_preeclampsia/$sample
+mv $TMPDIR/$sample/outs $WF/$sample
 "  
     fi
 done
