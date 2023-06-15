@@ -13,13 +13,16 @@
 set -v
 set -e
 
-module load samtools
+module load samtools/1.11
 
-ncpus=$SLURM_CPUS_ON_NODE
+ncpus=4  ##$SLURM_CPUS_ON_NODE
 
 ## Reference genome fasta. It should match the one used for alignment. 
 #refGenome="/nfs/rprscratch/1Kgenomes/phase2_reference_assembly_sequence/hs37d5.fa.bgz"
-refGenome="/wsu/el7/groups/piquelab/refData/refGenome10x/refdata-cellranger-arc-GRCh38-2020-A-2.0.0/fasta/genome.fa"
+##refGenome="/wsu/el7/groups/piquelab/refData/refGenome10x/refdata-cellranger-arc-GRCh38-2020-A-2.0.0/fasta/genome.fa"
+##refGenome="/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg19-3.0.0/fasta/genome.fa"
+## not used in this script.
+
 
 ## Initial genotype file vcf, Prefilter: MAF>0 to remove monomorphic SNPs. and to keep only snp and -m2 -M2
 ## See 1_make_basic_ref_vcf.sh script
@@ -54,7 +57,9 @@ fi
 # reorder VCF lexicographically by chromosome number
 
 if [ ! -f ${prefix}.posG9.reordered.vcf.gz ]; then
-    bcftools view -r `echo "chr"{1,10,11,12,13,14,15,16,17,18,19,2,20,21,22,3,4,5,6,7,8,9} | tr ' ' ,` ${prefix}.posG9.AF.vcf.gz --threads ${ncpus} -Oz -o ${prefix}.posG9.reordered.vcf.gz 
+##    bcftools view -r `echo "chr"{1,10,11,12,13,14,15,16,17,18,19,2,20,21,22,3,4,5,6,7,8,9} | tr ' ' ,` ${prefix}.posG9.AF.vcf.gz --threads ${ncpus} -Oz -o ${prefix}.posG9.reordered.vcf.gz
+
+    bcftools view -r `echo {1,10,11,12,13,14,15,16,17,18,19,2,20,21,22,3,4,5,6,7,8,9} | tr ' ' ,` ${prefix}.posG9.AF.vcf.gz --threads ${ncpus} -Oz -o ${prefix}.posG9.reordered.vcf.gz 
     bcftools index ${prefix}.posG9.reordered.vcf.gz --threads ${ncpus}
 fi
 
