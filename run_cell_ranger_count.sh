@@ -25,9 +25,8 @@ WF=`pwd -P`;
 ##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg19-3.0.0/
 ##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-gex-GRCh38-2020-A/
 
-##transcriptome=/wsu/el7/groups/piquelab/refData/refGenome10x/refdata-gex-GRCh38-2020-A/
-transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg19-3.0.0/
-
+transcriptome=/wsu/el7/groups/piquelab/refData/refGenome10x/refdata-gex-GRCh38-2020-A/
+##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg19-3.0.0/
 
 ##
 if [ ! -f "libList.txt" ]; then
