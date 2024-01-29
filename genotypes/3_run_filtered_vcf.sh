@@ -59,7 +59,7 @@ fi
 if [ ! -f ${prefix}.posG9.reordered.vcf.gz ]; then
 ##    bcftools view -r `echo "chr"{1,10,11,12,13,14,15,16,17,18,19,2,20,21,22,3,4,5,6,7,8,9} | tr ' ' ,` ${prefix}.posG9.AF.vcf.gz --threads ${ncpus} -Oz -o ${prefix}.posG9.reordered.vcf.gz
 
-    bcftools view -r `echo {1,10,11,12,13,14,15,16,17,18,19,2,20,21,22,3,4,5,6,7,8,9} | tr ' ' ,` ${prefix}.posG9.AF.vcf.gz --threads ${ncpus} -Oz -o ${prefix}.posG9.reordered.vcf.gz 
+    bcftools view -r `echo chr{1,10,11,12,13,14,15,16,17,18,19,2,20,21,22,3,4,5,6,7,8,9} | tr ' ' ,` ${prefix}.posG9.AF.vcf.gz --threads ${ncpus} -Oz -o ${prefix}.posG9.reordered.vcf.gz 
     bcftools index ${prefix}.posG9.reordered.vcf.gz --threads ${ncpus}
 fi
 
