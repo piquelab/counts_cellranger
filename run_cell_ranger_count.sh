@@ -57,7 +57,7 @@ time cellranger count \
       --sample=$sample \
       --transcriptome=$transcriptome \
       --localcores=15 --localmem=80 --localvmem=105;
-mv $TMPDIR/$sample/outs $WF/$sample
+mv \$TMPDIR/$sample/outs $WF/$sample
 "  
     fi
 done
