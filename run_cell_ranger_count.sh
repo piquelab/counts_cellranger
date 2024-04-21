@@ -40,7 +40,8 @@ do
 	echo $fastqlist
 	sbatch -q primary -n 16 -N 1-1 --mem=110G -t 20000 -J $sample -o slurm.$sample.out  --wrap "
 module load cellranger;
-cd $TMPDIR; \ 
+echo \$TMPDIR;
+cd \$TMPDIR; \
 time cellranger-atac count \
       --id=$sample \
       --fastqs=$fastqlist \

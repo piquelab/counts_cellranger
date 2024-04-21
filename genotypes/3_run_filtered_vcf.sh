@@ -71,3 +71,6 @@ fi
 
 
 
+
+plink2 --make-king-table --vcf combined.posG9.reheader.vcf.gz 
+ cat plink2.kin0 | awk '$6>0.1'

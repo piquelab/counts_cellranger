@@ -14,7 +14,7 @@ do
     if [ ! -f "slurm.${sample}.out" ]; then 
 	echo "#################"
 	echo ${sample}
-	sbatch -q primary --mem=510G -N 1-1 -n 2 -t 20000 -J ${sample} -o slurm.${sample}.out <<EOF
+	sbatch -q primary --mem=240G -N 1-1 -n 2 -t 20000 -J ${sample} -o slurm.${sample}.out <<EOF
 #!/bin/bash
 set -v 
 set -e
