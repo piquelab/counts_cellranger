@@ -16,17 +16,8 @@ fastqfolder=`cd ../fastq/; pwd -P`
 
 WF=`pwd -P`;
 
+refgenome=/wsu/el7/groups/piquelab/refData/refGenome10x/refdata-cellranger-arc-GRCh38-2020-A-2.0.0/
 
-##transcriptome=/nfs/rprdata/refGenome10x/refdata-cellranger-hg19-1.2.0/
-##transcriptome=/nfs/rprdata/refGenome10x/refdata-cellranger-GRCh38-3.0.0/
-##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-GRCh38-3.0.0/
-##wsu`transcriptome=/wsu/home/groups/piquelab/data/refGenome11x/refdata-cellranger-hg19-3.0.0/
-##transcriptome=/wsu/home/groups/piquelab/data/refGenome11x/refdata-gex-mm10-2020-A/
-##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg19-3.0.0/
-##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-gex-GRCh38-2020-A/
-
-transcriptome=/wsu/el7/groups/piquelab/refData/refGenome10x/refdata-gex-GRCh38-2020-A/
-##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg19-3.0.0/
 
 ##
 if [ ! -f "libList.txt" ]; then
@@ -50,15 +41,15 @@ do
 	sbatch -q primary -n 16 -N 1-1 --mem=110G -t 20000 -J $sample -o slurm.$sample.out  --wrap "
 module load cellranger;
 echo \$TMPDIR;
-cd \$TMPDIR; \ 
-time cellranger count \
+cd \$TMPDIR; \
+time cellranger-atac count \
       --id=$sample \
       --fastqs=$fastqlist \
       --sample=$sample \
-      --transcriptome=$transcriptome \
-      --localcores=15 --localmem=80 --localvmem=105;
-mv \$TMPDIR/$sample/outs $WF/$sample
-"  
+      --reference=$refgenome \
+      --localcores=15 --localmem=90 --localvmem=105;
+mv $TMPDIR/$sample/outs $WF/$sample
+"
     fi
 done
 
