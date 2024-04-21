@@ -48,7 +48,7 @@ time cellranger-atac count \
       --sample=$sample \
       --reference=$refgenome \
       --localcores=15 --localmem=90 --localvmem=105;
-mv $TMPDIR/$sample/outs $WF/$sample
+mv \$TMPDIR/$sample/outs $WF/$sample
 "
     fi
 done
