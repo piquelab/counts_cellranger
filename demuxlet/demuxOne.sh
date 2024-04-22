@@ -14,7 +14,7 @@ do
     if [ ! -f "slurm.${sample}.out" ]; then 
 	echo "#################"
 	echo ${sample}
-	sbatch -q primary --mem=240G -N 1-1 -n 2 -t 20000 -J ${sample} -o slurm.${sample}.out <<EOF
+	sbatch -q primary --mem=510G -N 1-1 -n 2 -t 40000 -J ${sample} -o slurm.${sample}.out <<EOF
 #!/bin/bash
 set -v 
 set -e
@@ -30,6 +30,7 @@ if [ ! -f "${demuxFolder}/${sample}.out.best" ]; then
          --vcf ${vcfFile} \
          --out ${demuxFolder}/${sample}.out --field GT --alpha 0.0 --alpha 0.5 --doublet-prior 0.1
 fi
+sacct -j \$SLURM_JOB_ID --format=JobID,MaxRSS,CPUTime,AveRSS --parsable2
 EOF
     fi
 done

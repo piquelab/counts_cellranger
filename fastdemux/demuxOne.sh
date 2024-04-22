@@ -22,6 +22,7 @@ set -v
 set -e
 module load misc; 
 time fastdemux -t ${ncpus} ../${sample}/possorted_genome_bam.bam ${vcfFile} ../${sample}/raw_feature_bc_matrix/barcodes.tsv.gz ${demuxFolder}/${sample}.fdout.raw 
+sacct -j $SLURM_JOB_ID --format=JobID,MaxRSS,CPUTime,AveRSS --parsable2
 EOF
     fi
 done
