@@ -13,4 +13,3 @@ do
 done | sed 'N;s/<==\n/\|/' > batchinfo.txt
 
 cat batchinfo.txt | cut -d'|' -f 1,4 | sed 's/.|/\t/' | awk -F"\t" '{ value = $2+0; suffix = substr($2, length($2)); if (suffix=="K") value /= (1024*1024); else if (suffix=="M") value /= 1024; else if (suffix!="G") value = -1; $2 = value; print }' > memory_usage.txt
-
