@@ -21,7 +21,7 @@ set -e
 module load demuxlet; 
 if [ ! -f "${demuxFolder}/${sample}.d.var.gz" ]; then
    popscle.2021-01-18  dsc-pileup \
-         --sam ../${sample}/possorted_genome_bam.bam \
+         --sam ../CITE_${sample}/possorted_genome_bam.bam \
          --vcf ${vcfFile} \
          --out ${demuxFolder}/${sample}.d > ${demuxFolder}/${sample}.errout.txt;
 fi

@@ -12,7 +12,7 @@ echo $PWD
 ##fastqfolder=../fastq/HV2LVBGXG/
 ##fastqfolder=../fastq/0H2JCYBGXG/
 ##fastqfolder=/nfs/prb/fe0105/preeclampsia/fastqs/
-fastqfolder=`cd ../fastq/; pwd -P`
+fastqfolder=`cd ../fastqs/; pwd -P`
 
 WF=`pwd -P`;
 
@@ -25,8 +25,11 @@ WF=`pwd -P`;
 ##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg19-3.0.0/
 ##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-gex-GRCh38-2020-A/
 
-transcriptome=/wsu/el7/groups/piquelab/refData/refGenome10x/refdata-gex-GRCh38-2020-A/
+##transcriptome=/wsu/el7/groups/piquelab/refData/refGenome10x/refdata-gex-GRCh38-2020-A/
 ##transcriptome=/wsu/home/groups/piquelab/data/refGenome10x/refdata-cellranger-hg19-3.0.0/
+transcriptome=/wsu/el7/groups/piquelab/refData/refGenome10x/refdata-gex-GRCh38-2024-A/
+
+abFile=/wsu/home/groups/prbgenomics/prbgenomics/yixuciteseq/antibody.csv
 
 ##
 if [ ! -f "libList.txt" ]; then
@@ -44,21 +47,22 @@ do
     if [ ! -f "slurm.${sample}.out" ]; then 
 	echo "#################"
 	echo $sample 
-	fastqs=`find -L ${fastqfolder} -name "${sample}_*fastq.gz" | sed "s/\/${sample}_S[0-9].*//" | sort | uniq`
-	fastqlist=`echo ${fastqs} | tr ' ' ,`
-	echo $fastqlist
-	sbatch -q primary -n 16 -N 1-1 --mem=110G -t 20000 -J $sample -o slurm.$sample.out  --wrap "
+        sbatch -q express -n 14 -N 1-1 --mem=110G -t 20000 -J $sample -o slurm.$sample.out  --wrap "
 module load cellranger;
 echo \$TMPDIR;
-cd \$TMPDIR; \ 
+cd \$TMPDIR; \
+echo 'fastqs,sample,library_type,' > $sample.library.csv; \
+echo ${fastqfolder},CITE-GE-$sample,Gene Expression, >> $sample.library.csv; \
+echo ${fastqfolder},CITE-CSP-$sample,Antibody Capture, >> $sample.library.csv; \
 time cellranger count \
-      --id=$sample \
-      --fastqs=$fastqlist \
-      --sample=$sample \
+      --id=CITE_$sample \
+      --libraries=$sample.library.csv \
+      --feature-ref=$abFile \
       --transcriptome=$transcriptome \
-      --localcores=15 --localmem=80 --localvmem=105;
-mv \$TMPDIR/$sample/outs $WF/$sample
-"  
+      --create-bam true \
+      --localcores=12 --localmem=80 --localvmem=105;
+mv \$TMPDIR/CITE_$sample/outs $WF/CITE_$sample
+"
     fi
 done
 
