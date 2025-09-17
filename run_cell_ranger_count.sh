@@ -12,7 +12,7 @@ echo $PWD
 ##fastqfolder=../fastq/HV2LVBGXG/
 ##fastqfolder=../fastq/0H2JCYBGXG/
 ##fastqfolder=/nfs/prb/fe0105/preeclampsia/fastqs/
-fastqfolder=`cd ../fastq/; pwd -P`
+fastqfolder=`cd ../; pwd -P`
 
 WF=`pwd -P`;
 
@@ -56,7 +56,7 @@ time cellranger count \
       --fastqs=$fastqlist \
       --sample=$sample \
       --transcriptome=$transcriptome \
-      --localcores=15 --localmem=80 --localvmem=105;
+      --create-bam true --localcores=15 --localmem=80 --localvmem=105;
 mv \$TMPDIR/$sample/outs $WF/$sample
 "  
     fi
