@@ -12,7 +12,7 @@ echo $PWD
 ##fastqfolder=../fastq/HV2LVBGXG/
 ##fastqfolder=../fastq/0H2JCYBGXG/
 ##fastqfolder=/nfs/prb/fe0105/preeclampsia/fastqs/
-fastqfolder=`cd ../; pwd -P`
+fastqfolder=`cd ../fastq-merge_SCAIP19-26/; pwd -P`
 
 WF=`pwd -P`;
 
