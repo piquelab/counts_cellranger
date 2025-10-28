@@ -1,6 +1,6 @@
 #!/bin/bash
 
-destfolder=/nfs/rprscratch/wwwShare/genome.grid.wayne.edu/cite-seq/${PWD##*/}
+destfolder=/nfs/rprscratch/wwwShare/labor2/cite-seq2/${PWD##*/}
 
 mkdir -p $destfolder
 
