@@ -47,19 +47,21 @@ do
 	fastqs=`find -L ${fastqfolder} -name "${sample}_*fastq.gz" | sed "s/\/${sample}_S[0-9].*//" | sort | uniq`
 	fastqlist=`echo ${fastqs} | tr ' ' ,`
 	echo $fastqlist
-	sbatch -q primary -n 16 -N 1-1 --mem=110G -t 20000 -J $sample -o slurm.$sample.out  --wrap "
+	sbatch -q highmem -n 12 -N 1-1 --mem=240G -t 20000 -J $sample -o slurm.$sample.out  --wrap "
 module load cellranger;
-echo \$TMPDIR;
-cd \$TMPDIR; \ 
+cd /wsu/tmp/; \ 
 time cellranger count \
       --id=$sample \
       --fastqs=$fastqlist \
       --sample=$sample \
       --transcriptome=$transcriptome \
       --create-bam true \
-       --localcores=15 --localmem=80 --localvmem=105;
-mv \$TMPDIR/$sample/outs $WF/$sample
-"  
+      --nosecondary  \
+      --disable-ui  \
+       --localcores=12 --localmem=230 --localvmem=230;
+mv /wsu/tmp/$sample/outs $WF/$sample
+sacct -j \$SLURM_JOB_ID --format=JobID,MaxRSS,CPUTime,AveRSS,maxdiskwrite,maxdiskread,partition,node --parsable2
+"
     fi
 done
 
