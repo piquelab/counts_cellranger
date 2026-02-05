@@ -47,18 +47,40 @@ do
 	fastqs=`find -L ${fastqfolder} -name "${sample}_*fastq.gz" | sed "s/\/${sample}_S[0-9].*//" | sort | uniq`
 	fastqlist=`echo ${fastqs} | tr ' ' ,`
 	echo $fastqlist
-	sbatch -q primary -n 16 -N 1-1 --mem=110G -t 20000 -J $sample -o slurm.$sample.out  --wrap "
-module load cellranger;
-echo \$TMPDIR;
-cd \$TMPDIR; \ 
+sbatch -q highmem -n 10 -N 1-1 --requeue --mem=240G -t 20000 -J "$sample" -o "slurm.$sample.out" <<EOF
+#!/bin/bash
+set -e
+set -v 
+
+module load cellranger
+echo "TMPDIR is \$TMPDIR"
+
+avail_kb=\$(df --output=avail "\$TMPDIR" | tail -n 1 | tr -d ' ')
+avail_gb=\$(echo "\$avail_kb" | awk '{printf "%.1f", \$1 / 1024 / 1024}')
+
+if [ "\$avail_kb" -lt 838860800 ]; then
+    echo "ERROR: Insufficient space in \$TMPDIR. Available: \${avail_gb} GB (< 800 GB required)" >&2
+    exit 1
+fi
+
+echo "Sufficient space available in \$TMPDIR: \${avail_gb} GB"
+
+cd "\$TMPDIR" || exit 1
+
 time cellranger count \
-      --id=$sample \
-      --fastqs=$fastqlist \
-      --sample=$sample \
-      --transcriptome=$transcriptome \
-      --localcores=15 --localmem=80 --localvmem=105;
-mv \$TMPDIR/$sample/outs $WF/$sample
-"  
+      --id="$sample" \
+      --fastqs="$fastqlist" \
+      --sample="$sample" \
+      --transcriptome="$transcriptome" \
+      --create-bam=true \
+      --nosecondary \
+      --disable-ui \
+      --localcores=10 \
+      --localmem=200 \
+      --localvmem=220
+
+mv "\$TMPDIR/$sample/outs" "$WF/$sample" || exit 1
+EOF
     fi
 done
 

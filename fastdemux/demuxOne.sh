@@ -13,7 +13,7 @@ mkdir -p ${demuxFolder}
 cat ../libList.txt | \
 while read sample;
 do
-    if [ ! -f "slurm.${sample}.out" ]; then 
+    if [ ! -f "slurm.${sample}.fd.out" ]; then 
 	echo "#################"
 	echo ${sample}
 	sbatch -q primary --mem=25G -N 1-1 -n ${ncpus} -t 20000 -J fd-${sample} -o slurm.${sample}.fd.out <<EOF
