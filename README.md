@@ -1,7 +1,7 @@
 # counts_cellranger
 General script to run cellranger counts at the Wayne State University High Performance Computing Grid. 
 
-# Quick start for a new single cell project. 
+### Quick start for a new single cell project. 
 
 We assume that `fastq.gz` files are in the `./fastq` folder following the conventional 10 cellranger standard. Files can be organized in folders from multiple runs, or merged.   
 
