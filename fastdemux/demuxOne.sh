@@ -16,7 +16,7 @@ do
     if [ ! -f "slurm.${sample}.fd.out" ]; then 
 	echo "#################"
 	echo ${sample}
-	sbatch -q primary --mem=25G -N 1-1 -n ${ncpus} -t 20000 -J fd-${sample} -o slurm.${sample}.fd.out <<EOF
+	sbatch  -q requeue  --requeue  --mem=25G -N 1-1 -n ${ncpus} -t 20000 -J fd-${sample} -o slurm.${sample}.fd.out <<EOF
 #!/bin/bash
 set -v 
 set -e
