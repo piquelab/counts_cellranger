@@ -73,7 +73,7 @@ time cellranger count \
       --sample="$sample" \
       --transcriptome="$transcriptome" \
       --create-bam=true \
-      --nosecondary \
+      --chemistry=ARC-v1 \
       --disable-ui \
       --localcores=10 \
       --localmem=200 \
