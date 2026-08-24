@@ -67,6 +67,11 @@ echo "Sufficient space available in \$TMPDIR: \${avail_gb} GB"
 
 cd "\$TMPDIR" || exit 1
 
+
+export TENX_IGNORE_DEPRECATED_OS=1;
+
+cellranger --version
+
 time cellranger count \
       --id="$sample" \
       --fastqs="$fastqlist" \
